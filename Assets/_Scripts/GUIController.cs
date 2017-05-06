@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUIController : MonoBehaviour {
 
-	// Use this for initialization
+    public Text scoreText;
+
 	void Start () {
-		
+        scoreText.text = "0 : 0";
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		
+        scoreText.text = GameController.GetPlayer1Goals() + " : " + GameController.GetPlayer2Goals();
 	}
 }

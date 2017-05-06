@@ -11,7 +11,6 @@ public class GoalController : MonoBehaviour {
         if (collision.tag == "Ball")
         {
             GameController.AddGoal(playerWhoGetsGoals);
-            Destroy(collision.gameObject);
         }
     }
 }

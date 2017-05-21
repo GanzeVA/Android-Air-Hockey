@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour {
         ballObject = ball;
         player1Object = player1;
         player2Object = player2;
-        StartGame();
+        ResetGameAfterGoal(Random.Range(0, 1));
 	}
 	
 	void Update () {

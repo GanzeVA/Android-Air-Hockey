@@ -5,6 +5,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour {
 
     public float maxSpeed;
+    public float bounceSpeed;
 
     private float xVelocity;
     private float yVelocity;
@@ -39,4 +40,16 @@ public class BallController : MonoBehaviour {
 
         rb2d.velocity = new Vector2(xVelocity, yVelocity);
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Player")
+        {
+            Vector2 force = transform.position - collision.transform.position;
+            force.Normalize();
+
+            rb2d.AddForce(force * bounceSpeed);
+        }
+    }
+
 }

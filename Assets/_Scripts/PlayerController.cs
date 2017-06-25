@@ -29,7 +29,6 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.touchCount > 0)
         {
-            Debug.Log("Touched");
             Touch touch = Input.GetTouch(0);
             Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
             for (int i=0; i < Input.touchCount; i++)
@@ -43,7 +42,7 @@ public class PlayerController : MonoBehaviour {
             }
 
             touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
-            if ( (touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved) && ((touchedPos.x < -1f && !isOnRightSide) || (touchedPos.x > 1f && isOnRightSide)) )
+            if ( (touch.phase == TouchPhase.Moved) && ((touchedPos.x < -1f && !isOnRightSide) || (touchedPos.x > 1f && isOnRightSide)) )
             {
                 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
                 transform.position = Vector3.MoveTowards(transform.position, touchedPos, speed * Time.deltaTime);

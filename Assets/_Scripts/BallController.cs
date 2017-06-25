@@ -6,6 +6,7 @@ public class BallController : MonoBehaviour {
 
     public float maxSpeed;
     public float bounceSpeed;
+    public ParticleSystem ballParticle;
 
     private float xVelocity;
     private float yVelocity;
@@ -43,6 +44,10 @@ public class BallController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.tag != "Goal")
+        {
+            Instantiate(ballParticle, transform);
+        }
         if (collision.tag == "Player")
         {
             Vector2 force = transform.position - collision.transform.position;

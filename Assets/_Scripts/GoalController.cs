@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class GoalController : MonoBehaviour {
 
+    public ParticleSystem goalParticle;
     public int playerWhoGetsGoals;
+
+    private GameController gameController;
+
+    void Start()
+    {
+        gameController = FindObjectOfType<GameController>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Ball")
+        if (collision.tag == "Ball" && !gameController.isGoal)
         {
-            GameController.AddGoal(playerWhoGetsGoals);
+            Instantiate(goalParticle, transform);
+            gameController.AddGoal(playerWhoGetsGoals);
         }
     }
 }

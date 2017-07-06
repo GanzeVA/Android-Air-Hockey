@@ -18,7 +18,7 @@ public class GoalController : MonoBehaviour {
     {
         if (collision.tag == "Ball" && !gameController.isGoal)
         {
-            Instantiate(goalParticle, transform);
+            Instantiate(goalParticle, collision.transform.position, collision.transform.rotation);
             gameController.AddGoal(playerWhoGetsGoals);
         }
     }

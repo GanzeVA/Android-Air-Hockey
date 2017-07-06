@@ -46,7 +46,7 @@ public class BallController : MonoBehaviour {
     {
         if (collision.tag != "Goal")
         {
-            Instantiate(ballParticle, transform);
+            Instantiate(ballParticle, transform.position, transform.rotation);
         }
         if (collision.tag == "Player")
         {

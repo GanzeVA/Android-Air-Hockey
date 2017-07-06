@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviour {
         {
             Touch touch = Input.GetTouch(0);
             Vector3 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
-            for (int i=0; i < Input.touchCount; i++)
+            for (int i = 0; i < Input.touchCount; i++)
             {
                 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.GetTouch(i).position.x, Input.GetTouch(i).position.y, 10));
-                if ( (touchedPos.x < -1f && !isOnRightSide) || (touchedPos.x > 1f && isOnRightSide) )
+                if ((touchedPos.x < -1f && !isOnRightSide) || (touchedPos.x > 1f && isOnRightSide))
                 {
                     touch = Input.GetTouch(i);
                     break;
@@ -42,12 +42,14 @@ public class PlayerController : MonoBehaviour {
             }
 
             touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
-            if ( (touch.phase == TouchPhase.Moved) && ((touchedPos.x < -1f && !isOnRightSide) || (touchedPos.x > 1f && isOnRightSide)) )
+            if ((touch.phase == TouchPhase.Moved) && ((touchedPos.x < -1f && !isOnRightSide) || (touchedPos.x > 1f && isOnRightSide)))
             {
                 touchedPos = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 10));
                 transform.position = Vector3.MoveTowards(transform.position, touchedPos, speed * Time.deltaTime);
             }
         }
+        else
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
         if (Mathf.Abs(transform.position.x) < Mathf.Abs(youShallNoPass))
         {

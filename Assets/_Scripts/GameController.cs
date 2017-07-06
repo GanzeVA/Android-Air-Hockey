@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
@@ -36,7 +37,17 @@ public class GameController : MonoBehaviour {
 
     public Text endGameText;
 
+    public Text countDownText;
+    public Text countDownTextBack;
+
+    public bool gameOn = false;
+
+    private bool vsCPU = false;
+
     void Start () {
+        if (SceneManager.GetActiveScene().name == "GameCPU")
+            vsCPU = true;
+
         isGoal = false;
         ballDistance = ballDistanceFromMiddle;
         player1Position = player1.transform.position;
@@ -49,6 +60,7 @@ public class GameController : MonoBehaviour {
 
     public void AddGoal (int whoseGoal)
     {
+        gameOn = false;
         isGoal = true;
         if (whoseGoal == 1)
         {  
@@ -67,7 +79,7 @@ public class GameController : MonoBehaviour {
             EndGame();
         }
         else
-            StartCoroutine("ResetGameCo");
+            StartCoroutine("AfterGoalCo");
     }
 
     public static int GetPlayer1Goals()
@@ -88,20 +100,55 @@ public class GameController : MonoBehaviour {
         greenGoalText.SetActive(false);
         endGameMenu.SetActive(false);
         pauseMenu.SetActive(false);
-        pauseButton.SetActive(true);
+        pauseButton.SetActive(false);
         player1Goals = 0;
         player2Goals = 0;
         ballDistanceAct = 0.0f;
         StartCoroutine("ResetGameCo");
     }
 
-    private IEnumerator ResetGameCo()
+    private IEnumerator AfterGoalCo()
     {
         ballObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         ballObject.SetActive(false);
 
         yield return new WaitForSeconds(respawnDelay);
 
+        gameOn = true;
+        pauseButton.SetActive(true);
+        redGoalText.SetActive(false);
+        greenGoalText.SetActive(false);
+        ballObject.transform.position = new Vector3(ballDistanceAct, 0.0f, 0.0f);
+        ballObject.SetActive(true);
+        player1Object.transform.position = player1Position;
+        player2Object.transform.position = player2Position;
+        player1Object.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        player2Object.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        isGoal = false;
+    }
+
+     private IEnumerator ResetGameCo()
+    {
+        ballObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        ballObject.SetActive(false);
+
+        countDownText.text = "3";
+        countDownTextBack.text = countDownText.text;
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(respawnDelay / 3);
+        countDownText.text = "2";
+        countDownTextBack.text = countDownText.text;
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(respawnDelay / 3);
+        countDownText.text = "1";
+        countDownTextBack.text = countDownText.text;
+        GetComponent<AudioSource>().Play();
+        yield return new WaitForSeconds(respawnDelay / 3);
+        countDownText.text = "";
+        countDownTextBack.text = countDownText.text;
+
+        gameOn = true;
+        pauseButton.SetActive(true);
         redGoalText.SetActive(false);
         greenGoalText.SetActive(false);
         ballObject.transform.position = new Vector3(ballDistanceAct, 0.0f, 0.0f);
@@ -120,6 +167,7 @@ public class GameController : MonoBehaviour {
         redGoalText.SetActive(false);
         greenGoalText.SetActive(false);
         ballObject.SetActive(false);
+        gameOn = false;
         player1Object.transform.position = player1Position;
         player2Object.transform.position = player2Position;
         player1Object.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
@@ -132,7 +180,10 @@ public class GameController : MonoBehaviour {
         else
         {
             player1.SetActive(false);
-            endGameText.text = "Red Player Won!";
+            if (vsCPU)
+                endGameText.text = "CPU Won!";
+            else
+                endGameText.text = "Red Player Won!";
         }
         endGameMenu.SetActive(true);
         pauseButton.SetActive(false);
@@ -143,11 +194,15 @@ public class GameController : MonoBehaviour {
         Debug.Log("Game Paused!");
         pauseMenu.SetActive(true);
         pauseButton.SetActive(false);
+        Time.timeScale = 0.0f;
+
     }
     
     public void UnPauseGame()
     {
         pauseMenu.SetActive(false);
         pauseButton.SetActive(true);
+        Time.timeScale = 1.0f;
     }
+
 }

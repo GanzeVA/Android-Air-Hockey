@@ -119,6 +119,7 @@ public class GameController : MonoBehaviour {
         redGoalText.SetActive(false);
         greenGoalText.SetActive(false);
         ballObject.transform.position = new Vector3(ballDistanceAct, 0.0f, 0.0f);
+        ballObject.transform.rotation = Quaternion.identity;
         ballObject.SetActive(true);
         player1Object.transform.position = player1Position;
         player2Object.transform.position = player2Position;
@@ -144,6 +145,7 @@ public class GameController : MonoBehaviour {
         countDownTextBack.text = countDownText.text;
         GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(respawnDelay / 3);
+        GetComponent<AudioSource>().Play();
         countDownText.text = "";
         countDownTextBack.text = countDownText.text;
 
@@ -152,6 +154,7 @@ public class GameController : MonoBehaviour {
         redGoalText.SetActive(false);
         greenGoalText.SetActive(false);
         ballObject.transform.position = new Vector3(ballDistanceAct, 0.0f, 0.0f);
+        ballObject.transform.rotation = Quaternion.identity;
         ballObject.SetActive(true);
         player1Object.transform.position = player1Position;
         player2Object.transform.position = player2Position;
@@ -163,6 +166,7 @@ public class GameController : MonoBehaviour {
     private void EndGame()
     {
         Debug.Log("End Game!");
+        GetComponent<AudioSource>().Play();
         ballObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         redGoalText.SetActive(false);
         greenGoalText.SetActive(false);

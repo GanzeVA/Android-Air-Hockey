@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour {
 
     void Update ()
     {
+        transform.rotation = Quaternion.identity;
+
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);

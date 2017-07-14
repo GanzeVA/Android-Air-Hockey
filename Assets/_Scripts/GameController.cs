@@ -146,6 +146,9 @@ public class GameController : MonoBehaviour {
         GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(respawnDelay / 3);
         GetComponent<AudioSource>().Play();
+        countDownText.text = "GO!";
+        countDownTextBack.text = countDownText.text;
+        yield return new WaitForSeconds(respawnDelay / 3);
         countDownText.text = "";
         countDownTextBack.text = countDownText.text;
 

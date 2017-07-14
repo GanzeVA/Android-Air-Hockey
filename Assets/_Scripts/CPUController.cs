@@ -43,6 +43,8 @@ public class CPUController : MonoBehaviour {
         {
             transform.position = Vector3.MoveTowards(transform.position, safeSpot.position, speed * Time.deltaTime);
         }
+        else
+            GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
 
 
         if (Mathf.Abs(transform.position.x) < Mathf.Abs(youShallNoPass))

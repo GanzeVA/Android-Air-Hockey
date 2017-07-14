@@ -66,6 +66,6 @@ public class MainMenuController : MonoBehaviour
 
     public void RateMe()
     {
-        Application.OpenURL("market://details?id=pl.zborowski.pixelhockey");
+        Application.OpenURL("market://details?id=com.zborowski.pixelhockey");
     }
 }
